@@ -11,7 +11,7 @@ class MainPage extends Component {
     return (
       <Container>
         <Row>
-          <Col xs={12} md={3}>
+          <Col xs={12} md={3} className="order-md-3">
             {/* Treść dla ekranów XS (extra small) do MD (medium) */}
             <p>Logo</p>
           </Col>
