@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-
 import { Container, Row, Col } from "react-bootstrap";
+import RandomMovieButton from "./RandomMovieButton";
 
 class MainPage extends Component {
   constructor() {
@@ -27,14 +27,11 @@ class MainPage extends Component {
         <Row>
           <Col xs={10}>
             {/* Treść dla ekranów XS (extra small) do LG (large) */}
-            <p>Roll Menu</p>
+            <RandomMovieButton />
           </Col>
         </Row>
         <Row>
-          <Col xs={10}>
-            {/* Treść dla ekranów XS (extra small) do LG (large) */}
-            <p>Movie information</p>
-          </Col>
+          <Col xs={10}></Col>
         </Row>
       </Container>
     );
