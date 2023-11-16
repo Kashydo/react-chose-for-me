@@ -1,26 +1,23 @@
-import React from 'react';
+
+import "./App.css";
+import MainPage from "./main-page/MainPage";
+import ErrorBoundary from "./ErrorBoundary";
 import customLogo from './images/logo192.png'; 
 
 function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
+  return (
+    <ErrorBoundary>
+      <div className="App">
+     <header className="App-header">
                 <img src={customLogo} className="App-logo" alt="logo" /> {}
                 <p>
                     Welcome to ChooseForMe
                 </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
-        </div>
-    );
-}
+      </header>
+      <MainPage />
+      </div>
+    </ErrorBoundary>
+  );
 
 export default App;
 
