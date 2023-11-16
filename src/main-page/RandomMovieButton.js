@@ -40,6 +40,7 @@ class RandomMovieButton extends Component {
     return (
       <div>
         <button onClick={this.handleRandomClick}>Get Random Movie</button>
+        <br />
         {this.state.randomMovies &&
           this.state.randomMovies.map((movie, index) => (
             <RandomMovie key={index} randomMovie={movie} />
