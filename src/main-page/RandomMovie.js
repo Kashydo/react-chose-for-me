@@ -1,22 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
-import MovieDetail from "../MovieDetail/MovieDetail";
+import FetchMovieDetail from "../MovieDetail/FetchMovieDetail";
 
-const RandomMovie = (props) => {
-  const [modalShow, setModalShow] = React.useState(false);
-  if (!props.randomMovie) {
+const RandomMovie = ({ randomMovie }) => {
+  const [modalShow, setModalShow] = useState(false);
+
+  if (!randomMovie) {
     return <div>No random movie available</div>;
   }
 
-  const { id, title } = props.randomMovie;
+  const handleRandomMovieClick = () => {
+    setModalShow(true);
+  };
 
   return (
     <>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
-        {title}
+      <Button variant="primary" onClick={handleRandomMovieClick}>
+        {randomMovie.title}
       </Button>
-      <br />
-      <MovieDetail show={modalShow} onHide={() => setModalShow(false)} />
+      <FetchMovieDetail
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        movieId={randomMovie.id}
+      />
     </>
   );
 };

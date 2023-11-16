@@ -5,7 +5,19 @@ import RandomMovieButton from "./RandomMovieButton";
 class MainPage extends Component {
   constructor() {
     super();
+    this.state = {
+      randomMovies: null,
+      selectedMovie: null,
+    };
   }
+
+  setRandomMovies = (movies) => {
+    this.setState({ randomMovies: movies });
+  };
+
+  setSelectedMovie = (movie) => {
+    this.setState({ selectedMovie: movie });
+  };
 
   render() {
     return (
@@ -27,7 +39,13 @@ class MainPage extends Component {
         <Row>
           <Col xs={10}>
             {/* Treść dla ekranów XS (extra small) do LG (large) */}
-            <RandomMovieButton />
+            <Col xs={10}>
+              <RandomMovieButton
+                setRandomMovies={this.setRandomMovies}
+                setSelectedMovie={this.setSelectedMovie}
+                randomMovies={this.state.randomMovies}
+              />
+            </Col>
           </Col>
         </Row>
         <Row>
