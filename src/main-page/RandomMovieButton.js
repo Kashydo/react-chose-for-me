@@ -5,23 +5,24 @@ class RandomMovieButton extends Component {
   constructor() {
     super();
     this.state = {
-      randomMovie: null,
+      randomMovies: null,
     };
   }
 
   handleRandomClick = () => {
-    this.loadRandomMovie();
+    this.loadRandomMovies();
   };
 
-  loadRandomMovie() {
+  loadRandomMovies() {
     console.log("Przed fetch");
-    fetch("https://localhost:5001/api/movies/randommovie?count=1")
+    fetch("https://localhost:5001/api/movies/randommovie?count=3")
       .then((response) => response.json())
       .then((data) => {
         console.log("Dane z API:", data);
         if (data && Array.isArray(data) && data.length > 0) {
-          this.setState({ randomMovie: data[0] });
-          console.log("Po ustawieniu stanu:", this.state.randomMovie);
+          this.setState({ randomMovies: [] });
+          this.setState({ randomMovies: data });
+          console.log("Po ustawieniu stanu:", this.state.randomMovies);
         } else {
           console.error("Otrzymane dane są nieprawidłowe:", data);
         }
@@ -30,16 +31,19 @@ class RandomMovieButton extends Component {
   }
 
   componentDidMount() {
-    this.loadRandomMovie();
+    this.loadRandomMovies();
   }
 
   render() {
-    console.log(this.state.randomMovie);
+    console.log(this.state.randomMovies);
 
     return (
       <div>
         <button onClick={this.handleRandomClick}>Get Random Movie</button>
-        <RandomMovie randomMovie={this.state.randomMovie} />
+        {this.state.randomMovies &&
+          this.state.randomMovies.map((movie, index) => (
+            <RandomMovie key={index} randomMovie={movie} />
+          ))}
       </div>
     );
   }
