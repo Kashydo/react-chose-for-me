@@ -1,23 +1,34 @@
-
+// App.js
 import "./App.css";
+import React, { useState, useEffect } from "react";
 import MainPage from "./main-page/MainPage";
 import ErrorBoundary from "./ErrorBoundary";
-import customLogo from './images/logo192.png'; 
+import LoadingScreen from "./loading-page/LoadingPage";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <ErrorBoundary>
       <div className="App">
-     <header className="App-header">
-                <img src={customLogo} className="App-logo" alt="logo" /> {}
-                <p>
-                    Welcome to ChooseForMe
-                </p>
-      </header>
-      <MainPage />
+        {loading ? (
+          <LoadingScreen />
+        ) : (
+          <header className="App-header">
+            <MainPage />
+          </header>
+        )}
       </div>
     </ErrorBoundary>
   );
+}
 
 export default App;
-

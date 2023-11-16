@@ -9,21 +9,9 @@ class MainPage extends Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          <Col xs={12} md={3} className="order-md-3">
-            {/* Treść dla ekranów XS (extra small) do MD (medium) */}
-            <p>Logo</p>
-          </Col>
-          <Col xs={5} md={4}>
-            {/* Treść dla ekranów XS (extra small) do MD (medium) */}
-            <p>Menu</p>
-          </Col>
-          <Col xs={7} md={5}>
-            {/* Treść dla ekranów XS (extra small) do MD (medium) */}
-            <p>Search</p>
-          </Col>
-        </Row>
+      <Container className="App-content">
+        {" "}
+        {/* Dodaj klasę App-content */}
         <Row>
           <Col xs={10}>
             {/* Treść dla ekranów XS (extra small) do LG (large) */}
