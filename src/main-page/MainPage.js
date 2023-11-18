@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import FetchRandomMovies from "./FetchRandomMovies";
-import FetchMovieDetail from "../MovieDetail/FetchMovieDetail";
+import { FetchMovieDetail } from "../MovieDetail/FetchMovieDetail";
 import MovieModal from "../MovieDetail/MovieModal";
 
 export default function MainPage() {
@@ -19,21 +19,24 @@ export default function MainPage() {
   }, [state.movies, setState]);
 
   const handleMovieClick = useCallback(
-    (movieId) => {
+    async (movieId) => {
       console.log("prevoius selcted movie:", state.selectedMovie);
 
-      FetchMovieDetail(setState, movieId);
       setState((prevState) => ({ ...prevState, isModalOpen: true }));
+
+      // Wait for the movieDetail
+
+      const movieDetail = await FetchMovieDetail(setState, movieId);
+
+      if (movieDetail) {
+        // Update the selectedMovie if movieDetail is not null
+
+        setState((prevState) => ({ ...prevState, selectedMovie: movieDetail }));
+      }
     },
+
     [state.selectedMovie, setState]
   );
-
-  function hendleMovieModal() {
-    if (state.isModalOpen) {
-      MovieModal();
-    }
-  }
-
   return (
     <Container>
       <Row>
@@ -65,11 +68,7 @@ export default function MainPage() {
           <div>
             {state.movies.map((movie) => (
               <div key={movie.id}>
-                <button
-                  onClick={
-                    (() => handleMovieClick(movie.id), then.hendleMovieModal)
-                  }
-                >
+                <button onClick={() => handleMovieClick(movie.id)}>
                   {movie.title} {movie.year}
                 </button>
               </div>
@@ -77,6 +76,15 @@ export default function MainPage() {
           </div>
         </Col>
       </Row>
+      {state.isModalOpen && (
+        <MovieModal
+          show={state.isModalOpen}
+          onHide={() =>
+            setState((prevState) => ({ ...prevState, isModalOpen: false }))
+          }
+          movieDetail={state.selectedMovie}
+        />
+      )}
     </Container>
   );
 }

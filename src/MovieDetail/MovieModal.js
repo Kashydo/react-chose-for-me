@@ -1,28 +1,27 @@
 import React from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
+import { Modal } from "react-bootstrap";
 
-const MovieModal = (props) => {
+const MovieModal = ({ show, onHide, movieDetail }) => {
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          {props.movieDetail.title}
+        <Modal.Title>
+          {movieDetail ? movieDetail.title : "Movie Details"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Year:</h4>
-        <p>{props.movieDetail.year}</p>
-        <h4>Description</h4>
-        <p>{props.movieDetail.description}</p>
+        {movieDetail ? (
+          <div>
+            <p>Year: {movieDetail.year}</p>
+            <p>Genres: {movieDetail.movieGenres}</p>
+            <p>Description: {movieDetail.description}</p>
+          </div>
+        ) : (
+          <p>Error fetching movie details</p>
+        )}
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <button onClick={onHide}>Close</button>
       </Modal.Footer>
     </Modal>
   );

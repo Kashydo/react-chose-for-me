@@ -1,26 +1,19 @@
-export default function FetchMovieDetail(setState, movieId) {
-  console.log("Fetching movie details...");
+export async function FetchMovieDetail(setState, movieId) {
+  const apiUrl = `https://localhost:5001/api/movies/${movieId}/details`;
 
-  fetch(`https://localhost:5001/api/movies/${movieId}/details`)
-    .then((response) => response.json())
+  let movieDetail;
 
-    .then((data) => {
-      console.log("Dane z API:", data);
+  try {
+    const response = await fetch(apiUrl);
+    movieDetail = await response.json();
+  } catch (error) {
+    console.error("Error fetching movie details:", error);
+  }
 
-      if (
-        data &&
-        typeof data === "object" &&
-        data.id &&
-        data.title &&
-        data.year &&
-        data.description &&
-        data.movieGenres
-      ) {
-        setState((prevState) => ({ ...prevState, selecteMovie: data }));
-      } else {
-        console.error("Otrzymane dane są nieprawidłowe:", data);
-      }
-    })
+  if (movieDetail) {
+    console.log("Movie detail from Api: ", movieDetail);
+    setState((prevState) => ({ ...prevState, selectedMovie: movieDetail }));
+  }
 
-    .catch((error) => console.error("Błąd fetch:", error));
+  return movieDetail;
 }
