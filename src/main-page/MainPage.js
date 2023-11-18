@@ -1,9 +1,10 @@
+import "../App.css";
 import React, { useState, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-
 import FetchRandomMovies from "./FetchRandomMovies";
 import { FetchMovieDetail } from "../MovieDetail/FetchMovieDetail";
 import MovieModal from "../MovieDetail/MovieModal";
+import NavigationBar from "./NavigationBar";
 
 export default function MainPage() {
   const [state, setState] = useState({
@@ -39,42 +40,39 @@ export default function MainPage() {
   );
   return (
     <Container>
-      <Row>
-        <Col xs={12} md={3} className="order-md-3">
-          {/* Treść dla ekranów XS (extra small) do MD (medium) */}
-          <p>Logo</p>
-        </Col>
-        <Col xs={5} md={4}>
-          {/* Treść dla ekranów XS (extra small) do MD (medium) */}
-          <p>Menu</p>
-        </Col>
-        <Col xs={7} md={5}>
-          {/* Treść dla ekranów XS (extra small) do MD (medium) */}
-          <p>Search</p>
+      <Row className="navbar">
+        <Col>
+          <NavigationBar />
         </Col>
       </Row>
-      <Row>
+      <Row className="movie-choice">
         <Col xs={10}>
           {/* Treść dla ekranów XS (extra small) do LG (large) */}
           <Col xs={10}>
-            <div>
-              <button onClick={handleRandomClick}>Get Random Movie</button>
+            <div class="dropdown">
+              <button className="movie-option-button">Genres</button>
+              <div class="dropdown-content">
+                <p>Action</p>
+                <p>Crime</p>
+                <p>Drama</p>
+              </div>
             </div>
+            <button className="movie-option-button" onClick={handleRandomClick}>
+              Get Random Movie
+            </button>
           </Col>
         </Col>
       </Row>
-      <Row>
-        <Col xs={10}>
-          <div>
-            {state.movies.map((movie) => (
-              <div key={movie.id}>
-                <button onClick={() => handleMovieClick(movie.id)}>
-                  {movie.title} {movie.year}
-                </button>
-              </div>
-            ))}
-          </div>
-        </Col>
+      <Row xs={10} className="movie-section">
+        <>
+          {state.movies.map((movie) => (
+            <Col key={movie.id}>
+              <button onClick={() => handleMovieClick(movie.id)}>
+                {movie.title} {movie.year}
+              </button>
+            </Col>
+          ))}
+        </>
       </Row>
       {state.isModalOpen && (
         <MovieModal
