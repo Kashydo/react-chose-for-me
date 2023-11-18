@@ -22,7 +22,7 @@ function App() {
         {loading ? (
           <LoadingScreen />
         ) : (
-          <header className="App-header">
+          <header className="App">
             <MainPage />
           </header>
         )}

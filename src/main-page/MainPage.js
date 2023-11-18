@@ -1,28 +1,88 @@
-import React, { Component } from "react";
+import "../App.css";
+import React, { useState, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import RandomMovieButton from "./RandomMovieButton";
+import FetchRandomMovies from "./FetchRandomMovies";
+import { FetchMovieDetail } from "../MovieDetail/FetchMovieDetail";
+import MovieModal from "../MovieDetail/MovieModal";
+import NavigationBar from "./NavigationBar";
 
-class MainPage extends Component {
-  constructor() {
-    super();
-  }
+export default function MainPage() {
+  const [state, setState] = useState({
+    movies: [],
+    selectedMovie: null,
+    isModalOpen: false,
+  });
 
-  render() {
-    return (
-      <Container className="App-content">
-        {" "}
-        {/* Dodaj klasę App-content */}
-        <Row>
+  const handleRandomClick = useCallback(() => {
+    console.log("previous movie data:", state.movies);
+    setState((prevState) => ({ ...prevState, movies: [] }));
+    FetchRandomMovies(setState);
+  }, [state.movies, setState]);
+
+  const handleMovieClick = useCallback(
+    async (movieId) => {
+      console.log("prevoius selcted movie:", state.selectedMovie);
+
+      setState((prevState) => ({ ...prevState, isModalOpen: true }));
+
+      // Wait for the movieDetail
+
+      const movieDetail = await FetchMovieDetail(setState, movieId);
+
+      if (movieDetail) {
+        // Update the selectedMovie if movieDetail is not null
+
+        setState((prevState) => ({ ...prevState, selectedMovie: movieDetail }));
+      }
+    },
+
+    [state.selectedMovie, setState]
+  );
+  return (
+    <Container>
+      <Row className="navbar">
+        <Col>
+          <NavigationBar />
+        </Col>
+      </Row>
+      <Row className="movie-choice">
+        <Col xs={10}>
+          {/* Treść dla ekranów XS (extra small) do LG (large) */}
           <Col xs={10}>
-            {/* Treść dla ekranów XS (extra small) do LG (large) */}
-            <RandomMovieButton />
+            <div class="dropdown">
+              <button className="movie-option-button">Genres</button>
+              <div class="dropdown-content">
+                <p>Action</p>
+                <p>Crime</p>
+                <p>Drama</p>
+              </div>
+            </div>
+            <button className="movie-option-button" onClick={handleRandomClick}>
+              Get Random Movie
+            </button>
           </Col>
-        </Row>
-        <Row>
-          <Col xs={10}></Col>
-        </Row>
-      </Container>
-    );
-  }
+        </Col>
+      </Row>
+      <Row xs={10} className="movie-section">
+        <>
+          {state.movies.map((movie) => (
+            <Col key={movie.id}>
+              <button onClick={() => handleMovieClick(movie.id)}>
+                {movie.title} {movie.year}
+              </button>
+            </Col>
+          ))}
+        </>
+      </Row>
+      {state.isModalOpen && (
+        <MovieModal
+          show={state.isModalOpen}
+          onHide={() =>
+            setState((prevState) => ({ ...prevState, isModalOpen: false }))
+          }
+          movieDetail={state.selectedMovie}
+        />
+      )}
+    </Container>
+  );
 }
-export default MainPage;
