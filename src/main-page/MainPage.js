@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Children } from "react";
+
 import FetchRandomMovies from "./FetchRandomMovies";
+import FetchMovieDetail from "../MovieDetail/FetchMovieDetail";
+import MovieModal from "../MovieDetail/MovieModal";
 
 export default function MainPage() {
   const [state, setState] = useState({
@@ -10,9 +12,26 @@ export default function MainPage() {
     isModalOpen: false,
   });
 
-  function handleRandomClick() {
+  const handleRandomClick = useCallback(() => {
     console.log("previous movie data:", state.movies);
+    setState((prevState) => ({ ...prevState, movies: [] }));
     FetchRandomMovies(setState);
+  }, [state.movies, setState]);
+
+  const handleMovieClick = useCallback(
+    (movieId) => {
+      console.log("prevoius selcted movie:", state.selectedMovie);
+
+      FetchMovieDetail(setState, movieId);
+      setState((prevState) => ({ ...prevState, isModalOpen: true }));
+    },
+    [state.selectedMovie, setState]
+  );
+
+  function hendleMovieModal() {
+    if (state.isModalOpen) {
+      MovieModal();
+    }
   }
 
   return (
@@ -46,7 +65,11 @@ export default function MainPage() {
           <div>
             {state.movies.map((movie) => (
               <div key={movie.id}>
-                <button>
+                <button
+                  onClick={
+                    (() => handleMovieClick(movie.id), then.hendleMovieModal)
+                  }
+                >
                   {movie.title} {movie.year}
                 </button>
               </div>
