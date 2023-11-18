@@ -1,17 +1,15 @@
 import React from "react";
 
-const RandomMovie = (props) => {
-  if (!props.randomMovie) {
+export default function RandomMovie({ movie }) {
+  if (!movie) {
     return <div>No random movie available</div>;
   }
-
-  const { id, title } = props.randomMovie;
-
+  console.log("Random movie: ", movie);
   return (
-    <div className={id}>
-      <h2>{title}</h2>
+    <div className={movie.id}>
+      <h2>
+        {movie.title} {movie.year}
+      </h2>
     </div>
   );
-};
-
-export default RandomMovie;
+}
