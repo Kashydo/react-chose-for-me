@@ -25,13 +25,9 @@ export default function MainPage() {
 
       setState((prevState) => ({ ...prevState, isModalOpen: true }));
 
-      // Wait for the movieDetail
-
       const movieDetail = await FetchMovieDetail(setState, movieId);
 
       if (movieDetail) {
-        // Update the selectedMovie if movieDetail is not null
-
         setState((prevState) => ({ ...prevState, selectedMovie: movieDetail }));
       }
     },
@@ -49,9 +45,9 @@ export default function MainPage() {
         <Col xs={10}>
           {/* Treść dla ekranów XS (extra small) do LG (large) */}
           <Col xs={10}>
-            <div class="dropdown">
+            <div className="dropdown">
               <button className="movie-option-button">Genres</button>
-              <div class="dropdown-content">
+              <div className="dropdown-content">
                 <p>Action</p>
                 <p>Crime</p>
                 <p>Drama</p>

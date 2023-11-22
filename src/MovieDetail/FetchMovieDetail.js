@@ -1,4 +1,4 @@
-export async function FetchMovieDetail(setState, movieId) {
+export async function FetchMovieDetail(setState, movieId) { // funkcje z małej litery
   const apiUrl = `https://localhost:5001/api/movies/${movieId}/details`;
 
   let movieDetail;
