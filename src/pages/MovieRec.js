@@ -1,10 +1,9 @@
 import "../App.css";
 import React, { useState, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import FetchRandomMovies from "./FetchRandomMovies";
+import FetchRandomMovies from "../RandomMovies/FetchRandomMovies";
 import { FetchMovieDetail } from "../MovieDetail/FetchMovieDetail";
 import MovieModal from "../MovieDetail/MovieModal";
-import NavigationBar from "./NavigationBar";
 
 export default function MainPage() {
   const [state, setState] = useState({
@@ -36,11 +35,6 @@ export default function MainPage() {
   );
   return (
     <Container>
-      <Row className="navbar">
-        <Col>
-          <NavigationBar />
-        </Col>
-      </Row>
       <Row className="movie-choice">
         <Col xs={10}>
           {/* Treść dla ekranów XS (extra small) do LG (large) */}
