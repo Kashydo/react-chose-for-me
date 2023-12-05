@@ -1,16 +1,22 @@
 import "../App.css";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import FetchRandomMovies from "../RandomMovies/FetchRandomMovies";
 import { FetchMovieDetail } from "../MovieDetail/FetchMovieDetail";
 import MovieModal from "../MovieDetail/MovieModal";
+import FetchAllGenres from "./FetchAllGenres";
 
 export default function MainPage() {
   const [state, setState] = useState({
     movies: [],
     selectedMovie: null,
     isModalOpen: false,
+    genres: [],
   });
+
+  useEffect(() => {
+    FetchAllGenres(setState);
+  }, []);
 
   const handleRandomClick = useCallback(() => {
     console.log("previous movie data:", state.movies);
@@ -33,7 +39,10 @@ export default function MainPage() {
 
     [state.selectedMovie, setState]
   );
+
+  
   return (
+    
     <Container>
       <Row className="movie-choice">
         <Col xs={10}>
@@ -42,9 +51,9 @@ export default function MainPage() {
             <div className="dropdown">
               <button className="movie-option-button">Genres</button>
               <div className="dropdown-content">
-                <p>Action</p>
-                <p>Crime</p>
-                <p>Drama</p>
+                {state.genres.map((genre) => (
+                  <p key={genre.id}>{genre.name}</p>
+                ))}
               </div>
             </div>
             <button className="movie-option-button" onClick={handleRandomClick}>

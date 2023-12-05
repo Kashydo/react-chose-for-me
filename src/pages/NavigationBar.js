@@ -3,6 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 function NavigationBar() {
+  
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
